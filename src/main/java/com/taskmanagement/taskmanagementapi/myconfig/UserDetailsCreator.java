@@ -1,35 +1,40 @@
-package com.taskmanagement.taskmanagementapi.Config;
+package com.taskmanagement.taskmanagementapi.myconfig;
+
 
 import com.taskmanagement.taskmanagementapi.Model.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class OurUserInfoDetails implements UserDetails {
-    private User user;
+public class UserDetailsCreator implements UserDetails {
+    String username;
+    String password;
+    List<GrantedAuthority>authorities=new ArrayList<>();
+    public UserDetailsCreator(User user){
+        this.username=user.getEmail();
+        this.password=user.getPassword();
+        String role=user.getRole().toString();
+        SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(role);
+        authorities.add(simpleGrantedAuthority);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole().toString());
-        return List.of(simpleGrantedAuthority);
+        return this.authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return this.username;
     }
 
     @Override

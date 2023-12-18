@@ -1,5 +1,6 @@
 package com.taskmanagement.taskmanagementapi.Services.ServiceImpl;
 
+import com.taskmanagement.taskmanagementapi.Enum.Role;
 import com.taskmanagement.taskmanagementapi.Exceptions.InvalidPasswordException;
 import com.taskmanagement.taskmanagementapi.Exceptions.WrongUserActionException;
 import com.taskmanagement.taskmanagementapi.Model.Task;
@@ -11,8 +12,7 @@ import com.taskmanagement.taskmanagementapi.ResponseDTO.TaskManagementListRespon
 import com.taskmanagement.taskmanagementapi.ResponseDTO.UserTaskListResponseDTO;
 import com.taskmanagement.taskmanagementapi.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,22 +22,21 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
 
     @Override
     public String addUser(UserRequestDTO userRequestDTO) {
         User user = User.builder()
                 .userName(userRequestDTO.getUserName())
                 .email(userRequestDTO.getEmail())
-                .password(passwordEncoder.encode(userRequestDTO.getPassword()))
-//                .password(new BCryptPasswordEncoder().encode(userRequestDTO.getPassword()))
-                .role(userRequestDTO.getRole())
+                .password(new BCryptPasswordEncoder().encode(userRequestDTO.getPassword()))
+                .role(Role.ROLE_User)
                 .login(false)
                 .build();
 
         userRepository.save(user);
-        return "Congratulations! "+ user.getUserName()+" you have successfully registered!";
+        return "Congratulations! "+ user.getUserName()+" you have successfully registered as a user!";
     }
 
     @Override

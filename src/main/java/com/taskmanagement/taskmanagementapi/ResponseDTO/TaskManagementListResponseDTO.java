@@ -1,6 +1,5 @@
 package com.taskmanagement.taskmanagementapi.ResponseDTO;
 
-import com.taskmanagement.taskmanagementapi.Model.Task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

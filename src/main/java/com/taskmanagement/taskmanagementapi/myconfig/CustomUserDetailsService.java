@@ -1,4 +1,4 @@
-package com.taskmanagement.taskmanagementapi.Config;
+package com.taskmanagement.taskmanagementapi.myconfig;
 
 import com.taskmanagement.taskmanagementapi.Model.User;
 import com.taskmanagement.taskmanagementapi.Repository.UserRepository;
@@ -7,9 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class MyUserInfoUserDetailsService implements UserDetailsService {
+import java.util.Optional;
+
+public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
@@ -17,7 +19,7 @@ public class MyUserInfoUserDetailsService implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException("Could not found user !!");
         }
-       OurUserInfoDetails ourUserInfoDetails = new OurUserInfoDetails(user);
-        return ourUserInfoDetails;
+
+        return new UserDetailsCreator(user);
     }
 }

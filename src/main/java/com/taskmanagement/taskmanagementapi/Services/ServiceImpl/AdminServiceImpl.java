@@ -1,11 +1,16 @@
 package com.taskmanagement.taskmanagementapi.Services.ServiceImpl;
 
+import com.taskmanagement.taskmanagementapi.Enum.Role;
 import com.taskmanagement.taskmanagementapi.Enum.TaskStatus;
 import com.taskmanagement.taskmanagementapi.Model.Task;
+import com.taskmanagement.taskmanagementapi.Model.User;
 import com.taskmanagement.taskmanagementapi.Repository.TaskManagementRepository;
+import com.taskmanagement.taskmanagementapi.Repository.UserRepository;
+import com.taskmanagement.taskmanagementapi.RequestDTO.UserRequestDTO;
 import com.taskmanagement.taskmanagementapi.ResponseDTO.TaskManagementResponseDTO;
 import com.taskmanagement.taskmanagementapi.Services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +21,27 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private TaskManagementRepository taskManagementRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    public AdminServiceImpl(TaskManagementRepository taskManagementRepository) {
+        this.taskManagementRepository = taskManagementRepository;
+    }
+
+
+    @Override
+    public String addAdmin(UserRequestDTO userRequestDTO, Role role) {
+        User user = User.builder()
+                .userName(userRequestDTO.getUserName())
+                .email(userRequestDTO.getEmail())
+                .password(new BCryptPasswordEncoder().encode(userRequestDTO.getPassword()))
+                .role(role)
+                .login(false)
+                .build();
+
+        userRepository.save(user);
+        return "Congratulations! "+ user.getUserName()+" you have successfully registered!";
+    }
     @Override
     public List<TaskManagementResponseDTO> findAllTask() {
         List<Task> taskList = taskManagementRepository.findAll();
@@ -52,4 +78,5 @@ public class AdminServiceImpl implements AdminService {
         }
         return taskManagementResponseDTOS;
     }
+
 }

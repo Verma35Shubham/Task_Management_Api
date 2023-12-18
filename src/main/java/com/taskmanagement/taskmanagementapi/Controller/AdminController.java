@@ -1,16 +1,13 @@
 package com.taskmanagement.taskmanagementapi.Controller;
 
+import com.taskmanagement.taskmanagementapi.Enum.Role;
 import com.taskmanagement.taskmanagementapi.Enum.TaskStatus;
-import com.taskmanagement.taskmanagementapi.Model.Task;
+import com.taskmanagement.taskmanagementapi.RequestDTO.UserRequestDTO;
 import com.taskmanagement.taskmanagementapi.ResponseDTO.TaskManagementResponseDTO;
 import com.taskmanagement.taskmanagementapi.Services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +17,10 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @PostMapping("/add")
+    public String addAdmin(@RequestBody UserRequestDTO userRequestDTO){
+        return adminService.addAdmin(userRequestDTO, Role.ROLE_Admin);
+    }
     @GetMapping("/find/all/task")
     @PreAuthorize("hasRole('Admin')")
     public List<TaskManagementResponseDTO> findAllTask(){

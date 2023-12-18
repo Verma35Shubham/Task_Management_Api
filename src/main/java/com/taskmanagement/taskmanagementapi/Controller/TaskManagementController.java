@@ -5,13 +5,12 @@ import com.taskmanagement.taskmanagementapi.Exceptions.WrongUserActionException;
 import com.taskmanagement.taskmanagementapi.RequestDTO.TaskManagementRequestDTO;
 import com.taskmanagement.taskmanagementapi.RequestDTO.TaskUpdateRequestDTO;
 import com.taskmanagement.taskmanagementapi.RequestDTO.UserTaskDeleteRequestDTO;
-import com.taskmanagement.taskmanagementapi.RequestDTO.UserTaskRequestDTO;
-import com.taskmanagement.taskmanagementapi.ResponseDTO.TaskManagementListResponseDTO;
 import com.taskmanagement.taskmanagementapi.ResponseDTO.TaskManagementResponseDTO;
 import com.taskmanagement.taskmanagementapi.Services.TaskManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +34,7 @@ public class TaskManagementController {
 
 
     @PutMapping("/update/user_task")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity updateTask(@RequestBody TaskUpdateRequestDTO taskUpdateRequestDTO) throws InvalidTaskException, WrongUserActionException {
         TaskManagementResponseDTO taskManagementResponseDTO;
         try{
@@ -46,6 +46,7 @@ public class TaskManagementController {
     }
 
     @DeleteMapping("/delete/user_task")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public String deleteTask(@RequestBody UserTaskDeleteRequestDTO userTaskDeleteRequestDTO) throws WrongUserActionException, InvalidTaskException{
         String response = "";
         try {

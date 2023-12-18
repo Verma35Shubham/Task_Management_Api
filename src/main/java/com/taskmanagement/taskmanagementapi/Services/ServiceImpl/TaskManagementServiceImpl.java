@@ -35,7 +35,7 @@ public class TaskManagementServiceImpl implements TaskManagementService {
         }catch (Exception e){
             throw new WrongUserActionException("Invalid User!");
         }
-        if(!user.getRole().equals(Role.Admin)){
+        if(!user.getRole().equals(Role.ROLE_Admin)){
             if(!user.isLogin()){
                 throw new WrongUserActionException("Please login first !!");
             }
@@ -71,7 +71,7 @@ public class TaskManagementServiceImpl implements TaskManagementService {
         }catch (Exception e){
             throw new WrongUserActionException("Invalid User!");
         }
-        if(!user.getRole().equals(Role.Admin)){
+        if(!user.getRole().equals(Role.ROLE_Admin)){
             if(!user.isLogin()){
                 throw new WrongUserActionException("Please login first !!");
             }

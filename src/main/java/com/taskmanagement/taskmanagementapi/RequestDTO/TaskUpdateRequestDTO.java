@@ -1,8 +1,6 @@
 package com.taskmanagement.taskmanagementapi.RequestDTO;
 
 import com.taskmanagement.taskmanagementapi.Enum.TaskStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
