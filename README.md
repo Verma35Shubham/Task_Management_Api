@@ -1,6 +1,6 @@
 # Spring Boot Task Management API
-This is a Spring Boot application for managing a Task Management API system where a person can add their details, product and sell their product, and  customer can view, addto cart and buy the  the product. 
-This project provides 10 APIs to perform various operations.
+This is a Spring Boot application for managing a Task Management API system where a person can add their task with title, description, dueDate and status where admin user have access of all the task.
+This project integrated with test cases.
 
 
 
